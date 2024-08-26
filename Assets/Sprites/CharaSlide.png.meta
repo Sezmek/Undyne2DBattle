@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1b7fcddce6b5daf4c9d2e643590ed178
+guid: e6ab765e3c19c2548ab2cd33bc33e912
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Chara_0
+      name: CharaSlide_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9547245fc3292e7498e81839ccaf738f
-      internalID: -1726679760
+      spriteID: 3fe3abe9a82588f4b9a732124c0f3f15
+      internalID: 1156737534
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chara_1
+      name: CharaSlide_1
       rect:
         serializedVersion: 2
         x: 0
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92b998f63bc7bb44ebc4fa9ccbb4d9af
-      internalID: -1274191956
+      spriteID: 77742ee1f2dfe394a8d571b73c020fa3
+      internalID: 1492938117
       vertices: []
       indices: 
       edges: []
@@ -162,8 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Chara_0: -1726679760
-      Chara_1: -1274191956
+      CharaSlide_0: 1156737534
+      CharaSlide_1: 1492938117
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3c7f66564a109574d9df660aba8e99e5
+guid: f47bf46cc623f5a4cbcd00eee6b65d95
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -114,7 +114,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 72
+        y: 36
         width: 36
         height: 36
       alignment: 0
@@ -124,8 +124,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52c35448f34c9cf4cb27ce642c8d6cae
-      internalID: 1464295920
+      spriteID: 5213d4fd6482fe24a96b1a8d52e2ec54
+      internalID: 65826504
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 36
-        y: 72
+        y: 36
         width: 36
         height: 36
       alignment: 0
@@ -145,56 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1a8e7687eb3e8954bb7f3332c44fbe49
-      internalID: 2111383568
+      spriteID: cc904a890506bf74d9c0d95107998c14
+      internalID: -800304643
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
       name: CharaJump_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 36
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ba4dcd8299079164fa266d3c3dfd155c
-      internalID: 1043571214
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharaJump_3
-      rect:
-        serializedVersion: 2
-        x: 36
-        y: 36
-        width: 36
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c8d1160acbc42f6468c87a1cec593f55
-      internalID: 863002272
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharaJump_4
       rect:
         serializedVersion: 2
         x: 0
@@ -208,8 +166,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 467250ade7157784ba39c6ef7514e66a
-      internalID: 124138210
+      spriteID: 12b1f2ed63b3e0c4b8529d5f27cf1945
+      internalID: 1009917238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharaJump_3
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 0
+        width: 36
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29f257a4c00fab647b9998c6add15417
+      internalID: 1080055455
       vertices: []
       indices: 
       edges: []
@@ -225,11 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CharaJump_0: 1464295920
-      CharaJump_1: 2111383568
-      CharaJump_2: 1043571214
-      CharaJump_3: 863002272
-      CharaJump_4: 124138210
+      CharaJump_0: 65826504
+      CharaJump_1: -800304643
+      CharaJump_2: 1009917238
+      CharaJump_3: 1080055455
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

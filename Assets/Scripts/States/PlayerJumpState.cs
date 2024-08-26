@@ -31,6 +31,12 @@ public class PlayerJumpState : PlayerState
         {
             stateMachine.ChangeState(player.airState);
         }
+        if (xInput != 0)
+            player.SetVelocity(xInput * player.moveSpeed * .8f, player.Rb.velocity.y);
+
+        if (player.IsWallDetected())
+            stateMachine.ChangeState(player.wallSlideState);
+
     }
 }
  

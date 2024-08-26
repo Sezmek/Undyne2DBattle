@@ -12,6 +12,7 @@ public class PlayerState
 
 
     protected float xInput;
+    protected float yInput;
     private string animBoolName;
 
     protected float stateTimer;
@@ -25,17 +26,20 @@ public class PlayerState
     {
         player.anim.SetBool(animBoolName, true);
         rb = player.Rb;
+
     }
     public virtual void Update()
     {
         stateTimer -= Time.deltaTime;
 
         xInput = Input.GetAxisRaw("Horizontal");
-
+        yInput = Input.GetAxisRaw("Vertical");
         player.anim.SetFloat("yVelocity", rb.velocity.y);
     }
     public virtual void Exit()
     {
         player.anim.SetBool(animBoolName, false);
+        player.slidePS.Stop();
+        player.slidePS.Clear();
     }
 }

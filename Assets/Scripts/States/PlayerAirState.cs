@@ -11,6 +11,8 @@ public class PlayerAirState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.slidePS.Stop();
+        player.slidePS.Clear();
     }
 
     public override void Exit()
@@ -23,5 +25,9 @@ public class PlayerAirState : PlayerState
         base.Update();
         if (player.IsGroundDetected())
             stateMachine.ChangeState(player.idleState);
+        if (xInput != 0)
+            player.SetVelocity(xInput * player.moveSpeed * .8f, player.Rb.velocity.y);
+        if (player.IsWallDetected())
+            stateMachine.ChangeState(player.wallSlideState);
     }
 }
