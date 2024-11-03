@@ -6,7 +6,6 @@ public class PlayerState
 {
     protected PlayerStateMachine stateMachine;
     protected Player player;
-
     protected Rigidbody2D rb;
 
 
@@ -14,6 +13,7 @@ public class PlayerState
     protected float xInput;
     protected float yInput;
     private string animBoolName;
+    protected bool triggerCalled;
 
     protected float stateTimer;
     public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
@@ -26,7 +26,8 @@ public class PlayerState
     {
         player.anim.SetBool(animBoolName, true);
         rb = player.Rb;
-
+        player.slidePS.Stop();
+        triggerCalled = false;
     }
     public virtual void Update()
     {
@@ -39,7 +40,11 @@ public class PlayerState
     public virtual void Exit()
     {
         player.anim.SetBool(animBoolName, false);
-        player.slidePS.Stop();
-        player.slidePS.Clear();
+        
+    }
+
+    public virtual void AnimationFinishTrigger()
+    {
+        triggerCalled = true;
     }
 }

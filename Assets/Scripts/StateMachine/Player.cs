@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
 
     #region States
     public PlayerIdleState idleState { get; private set; }
+    public PlayerPrimaryAttackState FirstAttackState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
         stateMachine = new PlayerStateMachine();
 
         idleState = new PlayerIdleState(this, stateMachine, "Idle");
+        FirstAttackState = new PlayerPrimaryAttackState(this, stateMachine, "FirstAttack");
         moveState = new PlayerMoveState(this, stateMachine, "Move");
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
         airState = new PlayerAirState(this, stateMachine, "Jump");
@@ -73,6 +75,8 @@ public class Player : MonoBehaviour
 
     private void CheckForDashInput()
     {
+        if (stateMachine.currentState == wallSlideState)
+            return;
         dashCooldownTime -= Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTime < 0)
         {
@@ -110,5 +114,7 @@ public class Player : MonoBehaviour
             Flip();
         else if (_x < 0 && facingRight)
             Flip();
-    }    
+    }
+
+    public void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 }

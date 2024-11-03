@@ -10,8 +10,8 @@ public class AnimationTriggers : MonoBehaviour
     {
         player.slidePS.Play();
     }
-    public void AnimationTrigger2()
+    public void AnimationFinishTrigger()
     {
-
+        player.AnimationFinishTrigger();
     }
 }

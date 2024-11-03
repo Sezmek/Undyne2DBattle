@@ -11,8 +11,6 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
-        player.slidePS.Stop();
-        player.slidePS.Clear();
     }
 
     public override void Exit()
@@ -22,7 +20,9 @@ public class PlayerIdleState : PlayerGroundedState
 
     public override void Update()
     {
+        player.SetVelocity(0, 0);
         base.Update();
+        player.slidePS.Stop();
         if (xInput == player.facingDir && player.IsWallDetected())
             return;
 

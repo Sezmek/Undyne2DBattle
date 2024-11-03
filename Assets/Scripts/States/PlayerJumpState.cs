@@ -18,6 +18,7 @@ public class PlayerJumpState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.SetVelocity(rb.velocity.x, rb.velocity.y * 0.6f);
     }
 
     public override void Update()
@@ -33,9 +34,6 @@ public class PlayerJumpState : PlayerState
         }
         if (xInput != 0)
             player.SetVelocity(xInput * player.moveSpeed * .8f, player.Rb.velocity.y);
-
-        if (player.IsWallDetected())
-            stateMachine.ChangeState(player.wallSlideState);
 
     }
 }
