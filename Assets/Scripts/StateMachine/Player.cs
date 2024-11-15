@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -115,6 +116,9 @@ public class Player : MonoBehaviour
         else if (_x < 0 && facingRight)
             Flip();
     }
-
+    public void Damage()
+    {
+        Debug.Log("damaged");
+    }
     public void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 }
