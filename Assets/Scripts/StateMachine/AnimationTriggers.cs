@@ -6,12 +6,16 @@ public class AnimationTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
 
-    public void AnimationTrigger()
+    public void SlidePS()
     {
         player.slidePS.Play();
     }
     public void AnimationFinishTrigger()
     {
         player.AnimationFinishTrigger();
+    }
+    public void ComboWindowTrigger()
+    {
+        player.Trigger();
     }
 }

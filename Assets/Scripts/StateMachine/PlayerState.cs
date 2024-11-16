@@ -9,7 +9,7 @@ public class PlayerState
     protected Rigidbody2D rb;
 
 
-
+    protected bool comboWindow;
     protected float xInput;
     protected float yInput;
     private string animBoolName;
@@ -46,5 +46,15 @@ public class PlayerState
     public virtual void AnimationFinishTrigger()
     {
         triggerCalled = true;
+    }
+
+    public virtual void Trigger()
+    {
+        if ( comboWindow )
+        {
+            comboWindow = false;
+            return;
+        }
+        comboWindow = true;
     }
 }
