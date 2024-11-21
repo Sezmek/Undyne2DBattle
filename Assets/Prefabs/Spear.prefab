@@ -121,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3facec55ef09044b4a75de2e751f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Isoff: 0
+  isRed: 0
 --- !u!114 &3846576367666654795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9430cca4daf3e574d9bce1436a0628a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Isoff: 0
+  isRed: 0
 --- !u!114 &6578535778360027357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb8873a3c8d2ae40b9456b823cf6c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Isoff: 0
 --- !u!1 &7131933106737773057
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7997545618559307429}
   - component: {fileID: 3051613240793061035}
+  - component: {fileID: 6621504349999965632}
+  - component: {fileID: 3521429556591882663}
   m_Layer: 0
   m_Name: Spear_0
   m_TagString: Untagged
@@ -217,7 +224,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1194579740, guid: 73398092668b95a4d9b6fefa6358967c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -229,3 +236,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6621504349999965632
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7131933106737773057}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f1225bf366a9c48458d2e992fbb2c653, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3521429556591882663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7131933106737773057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e2789ae98d8d674a91ff194a4a5e9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

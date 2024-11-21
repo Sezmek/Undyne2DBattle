@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Attack Info")]
+    public Transform attackCheck;
+    public float attackCheckRadius;
+
     [Header("Move Info")]
     public float moveSpeed = 12f;
 
@@ -102,6 +106,7 @@ public class Player : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x - wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
 
     }
 

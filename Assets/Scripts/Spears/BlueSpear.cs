@@ -18,9 +18,16 @@ public class BlueSpear : SpearBase
         rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
         transform.right = rb.velocity.normalized;
     }
-    public override void Update()
+    private void Update()
     {
-        base.Update();
+        if (!Isoff)
+        {
+            lifeTime -= Time.deltaTime;
+            if (lifeTime < 0)
+            {
+                SpearDeahtAnim();
+            }
+        }
     }
 
     public override void OnTriggerEnter2D(Collider2D collision)
@@ -28,7 +35,7 @@ public class BlueSpear : SpearBase
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            if (rb.velocity.magnitude > Mathf.Epsilon)
+            if (rb.velocity.magnitude > Mathf.Epsilon && !Isoff)
             {
                 collision.GetComponent<Player>()?.Damage();
             }
@@ -41,5 +48,10 @@ public class BlueSpear : SpearBase
     {
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+    public override void SpearDeahtAnim()
+    {
+        base.SpearDeahtAnim();
+        anim.Play("BlueSpearAnim");
     }
 }

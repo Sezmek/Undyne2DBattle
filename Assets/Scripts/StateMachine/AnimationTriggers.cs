@@ -18,4 +18,12 @@ public class AnimationTriggers : MonoBehaviour
     {
         player.Trigger();
     }
+    public void AttackAnimationTrigger()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
+        foreach (var item in colliders)
+        {
+            item.GetComponent<SpearBase>()?.SpearDeahtAnim();
+        }
+    }
 }
