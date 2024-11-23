@@ -12,6 +12,7 @@ public class SpearBase : MonoBehaviour
     protected Rigidbody2D rb;
     protected BoxCollider2D bd;
     public bool Isoff;
+    public bool isRed;
 
 
     private void Awake()
@@ -28,11 +29,11 @@ public class SpearBase : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D collison)
     {
-        if(sr.sprite == SpearMenager.instance.lightBlueSpear && !Isoff)
+        if((sr.sprite == SpearManager.instance.lightBlueSpear && !Isoff) || collison.tag == "Wall")
             return;
         if (collison.GetComponent<Player>() != null || collison.GetComponentInParent<Player>() != null)
             collison.GetComponent<Player>().Damage();
-        else
+        else if(collison.tag != "Spear")
             Stuck();
     }
 

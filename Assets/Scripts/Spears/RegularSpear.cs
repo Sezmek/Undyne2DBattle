@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RegularSpear : SpearBase
 {
-    public bool isRed;
     public void SetUpSpear(float _lifeTime, Sprite _sprite, Player _player, float _launchForce, bool _isRed)
     {
         player = _player;

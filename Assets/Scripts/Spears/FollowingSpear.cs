@@ -6,7 +6,6 @@ public class FollowingSpear : SpearBase
 {
     private bool following = true;
     private float followingSpeed;
-    public bool isRed;
     public void SetUpSpear(float _lifeTime, Sprite _sprite, Player _player, float _followingSpeed, bool _isRed)
     {
         player = _player;

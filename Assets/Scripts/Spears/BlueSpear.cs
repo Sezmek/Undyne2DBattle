@@ -32,6 +32,8 @@ public class BlueSpear : SpearBase
 
     public override void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.tag == "Wall")
+            return;
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
         if (rb != null)
         {

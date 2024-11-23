@@ -23,7 +23,17 @@ public class AnimationTriggers : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
         foreach (var item in colliders)
         {
-            item.GetComponent<SpearBase>()?.SpearDeahtAnim();
+            var regularSpear = item.GetComponent<RegularSpear>();
+            if (regularSpear?.isRed == true)
+            {
+                regularSpear.SpearDeahtAnim();
+            }
+
+            var followingSpear = item.GetComponent<FollowingSpear>();
+            if (followingSpear?.isRed == true)
+            {
+                followingSpear.SpearDeahtAnim();
+            }
         }
     }
 }

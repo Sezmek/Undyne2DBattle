@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public enum SpearType
 {
@@ -10,10 +8,10 @@ public enum SpearType
     FollowingRed,
     RegularLightBlue,
 }
-
-public class SpearMenager : MonoBehaviour
+public class SpearManager : MonoBehaviour
 {
-    public static SpearMenager instance;
+    public static SpearManager instance;
+
     private void Awake()
     {
         if (instance != null)
@@ -25,56 +23,65 @@ public class SpearMenager : MonoBehaviour
     [Header("Spear info")]
     public GameObject spearPrefab;
     public float lifeTime;
-    public float Speed;
+    public float speed;
     public float launchForce;
-    public SpearType spearType;
     public Sprite blueSpear;
     public Sprite redSpear;
     public Sprite lightBlueSpear;
 
-    private void Update()
+    [Header("Spawn positions")]
+    public Transform[] leftSpawnPositions;
+    public Transform[] rightSpawnPositions;
+    public Transform[] upperSpawnPositions;
+
+    public void StartSpearCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            CreateSword(transform.position);
-        }
+        StartCoroutine(CreateSpearsCoroutine(spawnPositions, spearType, spearCount, spawnFrequency));
     }
-    public void CreateSword(Vector2 position)
+
+    private IEnumerator CreateSpearsCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency)
     {
-        if (spearType == SpearType.Following)
+        for (int i = 0; i < spearCount; i++)
         {
-            GameObject newSpear = Instantiate(spearPrefab, position, transform.rotation);
-            FollowingSpear followingSpearScript = newSpear.GetComponent<FollowingSpear>();
-            followingSpearScript.enabled = true;
-            followingSpearScript.SetUpSpear(lifeTime, blueSpear, PlayerManager.instance.player, Speed, false);
-        }
-        else if (spearType == SpearType.Regular)
-        {
-            GameObject newSpear = Instantiate(spearPrefab, position, transform.rotation);
-            RegularSpear RegularSpearScript = newSpear.GetComponent<RegularSpear>();
-            RegularSpearScript.enabled = true;
-            RegularSpearScript.SetUpSpear(lifeTime, blueSpear, PlayerManager.instance.player, launchForce, false);
-        }
-        else if (spearType == SpearType.RegularRed)
-        {
-            GameObject newSpear = Instantiate(spearPrefab, position, transform.rotation);
-            RegularSpear regularSpearScript = newSpear.GetComponent<RegularSpear>();
-            regularSpearScript.enabled = true;
-            regularSpearScript.SetUpSpear(lifeTime, redSpear, PlayerManager.instance.player, Speed, true);
-        }
-        else if (spearType == SpearType.FollowingRed)
-        {
-            GameObject newSpear = Instantiate(spearPrefab, position, transform.rotation);
-            FollowingSpear followingSpearScript = newSpear.GetComponent<FollowingSpear>();
-            followingSpearScript.enabled = true;
-            followingSpearScript.SetUpSpear(lifeTime, redSpear, PlayerManager.instance.player, Speed, true);
-        }
-        else if (spearType == SpearType.RegularLightBlue)
-        {
-            GameObject newSpear = Instantiate(spearPrefab, position, transform.rotation);
-            BlueSpear BlueSpearScript = newSpear.GetComponent<BlueSpear>();
-            BlueSpearScript.enabled = true;
-            BlueSpearScript.SetUpSpear(lifeTime, lightBlueSpear, PlayerManager.instance.player, Speed);
+            Transform spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length)];
+
+            if (spearType == SpearType.Following)
+            {
+                GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+                FollowingSpear followingSpearScript = newSpear.GetComponent<FollowingSpear>();
+                followingSpearScript.enabled = true;
+                followingSpearScript.SetUpSpear(lifeTime, blueSpear, PlayerManager.instance.player, speed, false);
+            }
+            else if (spearType == SpearType.Regular)
+            {
+                GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+                RegularSpear regularSpearScript = newSpear.GetComponent<RegularSpear>();
+                regularSpearScript.enabled = true;
+                regularSpearScript.SetUpSpear(lifeTime, blueSpear, PlayerManager.instance.player, launchForce, false);
+            }
+            else if (spearType == SpearType.RegularRed)
+            {
+                GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+                RegularSpear regularSpearScript = newSpear.GetComponent<RegularSpear>();
+                regularSpearScript.enabled = true;
+                regularSpearScript.SetUpSpear(lifeTime, redSpear, PlayerManager.instance.player, launchForce, true);
+            }
+            else if (spearType == SpearType.FollowingRed)
+            {
+                GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+                FollowingSpear followingSpearScript = newSpear.GetComponent<FollowingSpear>();
+                followingSpearScript.enabled = true;
+                followingSpearScript.SetUpSpear(lifeTime, redSpear, PlayerManager.instance.player, speed, true);
+            }
+            else if (spearType == SpearType.RegularLightBlue)
+            {
+                GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+                BlueSpear blueSpearScript = newSpear.GetComponent<BlueSpear>();
+                blueSpearScript.enabled = true;
+                blueSpearScript.SetUpSpear(lifeTime, lightBlueSpear, PlayerManager.instance.player, launchForce);
+            }
+
+            yield return new WaitForSeconds(spawnFrequency);
         }
     }
 }

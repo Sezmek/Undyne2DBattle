@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6578535778360027357}
   m_Layer: 0
   m_Name: Spear
-  m_TagString: Untagged
+  m_TagString: Spear
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Isoff: 0
+  isRed: 0
 --- !u!1 &7131933106737773057
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,8 +223,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1374042311
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -1194579740, guid: 73398092668b95a4d9b6fefa6358967c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
