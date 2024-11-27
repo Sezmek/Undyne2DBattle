@@ -239,8 +239,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 321632591
-  m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingLayer: 2
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 402304516}
   m_Layer: 3
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,7 +500,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 321632591
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -786,10 +786,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217eaa3043d7c194faf7a64d6b9ee2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpearWarningPrefab: {fileID: 58083357332760440, guid: 046e1fe4ec1e1184cace3f9cccb3fa68, type: 3}
+  wallSpearPrefab: {fileID: 7042086595978565558, guid: 135aaf8e799e7a84ca8e04f297fe6bdb, type: 3}
   spearPrefab: {fileID: 1339462569788876934, guid: f4554f7bfdc38e8429a5d660af877747, type: 3}
-  lifeTime: 5
-  speed: 15
-  launchForce: 20
   blueSpear: {fileID: -1194579740, guid: 73398092668b95a4d9b6fefa6358967c, type: 3}
   redSpear: {fileID: -1883225349, guid: 73398092668b95a4d9b6fefa6358967c, type: 3}
   lightBlueSpear: {fileID: 2058687721, guid: 73398092668b95a4d9b6fefa6358967c, type: 3}
@@ -917,8 +916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91621ca645629274ba9a4b3f0d4e60bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spearsCount: 10
-  spawnFrequency: 1
 --- !u!1 &886953784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,7 +1299,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 321632591
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1511,8 +1508,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 571476651
+  m_SortingLayer: 3
   m_SortingOrder: 5
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -6417,8 +6414,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 321632591
-  m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingLayer: 2
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6524,7 +6521,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 571476651
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1726679760, guid: 1b7fcddce6b5daf4c9d2e643590ed178, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

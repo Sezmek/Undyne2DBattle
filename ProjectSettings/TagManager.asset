@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Spear
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -46,9 +47,9 @@ TagManager:
   - name: Spear
     uniqueID: 2920924985
     locked: 0
-  - name: Player
-    uniqueID: 571476651
-    locked: 0
   - name: Ground
     uniqueID: 321632591
+    locked: 0
+  - name: Player
+    uniqueID: 571476651
     locked: 0
