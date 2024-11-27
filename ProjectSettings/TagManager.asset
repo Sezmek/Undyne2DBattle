@@ -45,11 +45,11 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Spear
-    uniqueID: 2920924985
+    uniqueID: 3357798041
     locked: 0
-  - name: Ground
-    uniqueID: 321632591
+  - name: Wall
+    uniqueID: 2250410371
     locked: 0
   - name: Player
-    uniqueID: 571476651
+    uniqueID: 3796400881
     locked: 0
