@@ -41,9 +41,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Spear
     uniqueID: 3357798041
     locked: 0
@@ -52,4 +49,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3796400881
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0

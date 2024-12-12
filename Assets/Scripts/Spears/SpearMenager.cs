@@ -1,6 +1,6 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public enum SpearType
 {
@@ -13,146 +13,128 @@ public enum SpearType
 
 public class SpearManager : MonoBehaviour
 {
-    public static SpearManager instance;
+    public static SpearManager Instance { get; private set; }
 
-    private void Awake()
-    {
-        if (instance != null)
-            Destroy(instance.gameObject);
-        else
-            instance = this;
-    }
+    [Header("Wall Spear Info")]
+    [SerializeField] private GameObject spearWarningPrefab;
+    [SerializeField] private GameObject wallSpearPrefab;
 
-    [Header("WallSpearInfo")]
-    public GameObject SpearWarningPrefab;
-    public GameObject wallSpearPrefab;
+    [Header("Spear Info")]
+    [SerializeField] private GameObject spearPrefab;
+    [SerializeField] private Sprite blueSpear;
+    [SerializeField] private Sprite redSpear;
+    [SerializeField] public Sprite lightBlueSpear;
 
-    [Header("Spear info")]
-    public GameObject spearPrefab;
-    public Sprite blueSpear;
-    public Sprite redSpear;
-    public Sprite lightBlueSpear;
-
-    [Header("Spawn positions")]
+    [Header("Spawn Positions")]
     public Transform[] leftSpawnPositions;
     public Transform[] rightSpawnPositions;
     public Transform[] upperSpawnPositions;
 
-    public void StartSpearCoroutine(
-        Transform[] spawnPositions,
-        SpearType spearType,
-        int spearCount,
-        float spawnFrequency,
-        float lifeTime,
-        float speed,
-        float launchForce)
+    public  List<WallSpearController> activeWallSpears = new List<WallSpearController>();
+
+    private void Awake()
     {
-        StartCoroutine(CreateSpearsCoroutine(spawnPositions, spearType, spearCount, spawnFrequency, lifeTime, speed, launchForce));
-    }
-    public void StartWallSpearCoroutine(
-    SpearType spearType,
-    int spearCount,
-    float lifeTime,
-    Vector2 size,
-    Vector2 position,
-    float span,
-    bool isStright)
-    {
-        StartCoroutine(CreateWallSpearAttack(spearType, spearCount, lifeTime, size, position, span, isStright));
+        if (Instance != null) Destroy(Instance.gameObject);
+        Instance = this;
     }
 
-    private IEnumerator CreateSpearsCoroutine(
-        Transform[] spawnPositions,
-        SpearType spearType,
-        int spearCount,
-        float spawnFrequency,
-        float lifeTime,
-        float speed,
-        float launchForce)
+    #region Corutine Start methods
+
+    public void StartSpearCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce) =>
+        StartCoroutine(CreateSpears(spawnPositions, spearType, spearCount, spawnFrequency, lifeTime, speed, launchForce));
+
+    public void StartWallSpearCoroutine(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, bool isStraight, float waitTime) =>
+        StartCoroutine(CreateWallSpears(spearType, spearCount, lifeTime, size, position, span, isStraight, waitTime));
+
+    private IEnumerator CreateSpears(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce)
     {
         for (int i = 0; i < spearCount; i++)
         {
             Transform spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length)];
             GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
-
-            if (spearType == SpearType.Following)
-            {
-                FollowingSpear followingSpearScript = newSpear.GetComponent<FollowingSpear>();
-                followingSpearScript.enabled = true;
-                followingSpearScript.SetUpSpear(lifeTime, blueSpear, PlayerManager.instance.player, speed, false);
-            }
-            else if (spearType == SpearType.Regular)
-            {
-                RegularSpear regularSpearScript = newSpear.GetComponent<RegularSpear>();
-                regularSpearScript.enabled = true;
-                regularSpearScript.SetUpSpear(lifeTime, blueSpear, PlayerManager.instance.player, launchForce, false);
-            }
-            else if (spearType == SpearType.RegularRed)
-            {
-                RegularSpear regularSpearScript = newSpear.GetComponent<RegularSpear>();
-                regularSpearScript.enabled = true;
-                regularSpearScript.SetUpSpear(lifeTime, redSpear, PlayerManager.instance.player, launchForce, true);
-            }
-            else if (spearType == SpearType.FollowingRed)
-            {
-                FollowingSpear followingSpearScript = newSpear.GetComponent<FollowingSpear>();
-                followingSpearScript.enabled = true;
-                followingSpearScript.SetUpSpear(lifeTime, redSpear, PlayerManager.instance.player, speed, true);
-            }
-            else if (spearType == SpearType.RegularLightBlue)
-            {
-                BlueSpear blueSpearScript = newSpear.GetComponent<BlueSpear>();
-                blueSpearScript.enabled = true;
-                blueSpearScript.SetUpSpear(lifeTime, lightBlueSpear, PlayerManager.instance.player, launchForce);
-            }
-
+            SetupSpear(newSpear, spearType, lifeTime, speed, launchForce);
             yield return new WaitForSeconds(spawnFrequency);
         }
     }
-
-    private IEnumerator CreateWallSpearAttack(
-        SpearType spearType,
-        int spearCount,
-        float lifeTime,
-        Vector2 size,
-        Vector2 position,
-        float span,
-        bool isStright)
+    #endregion
+    private void SetupSpear(GameObject spear, SpearType spearType, float lifeTime, float speed, float launchForce)
     {
-        List<Vector2> positions = new List<Vector2>();
-        List<GameObject> warnings = new List<GameObject>(); 
+        Sprite sprite = GetSpriteForSpearType(spearType);
+        bool isRed = spearType.ToString().Contains("Red");
 
+        if (spearType == SpearType.Following || spearType == SpearType.FollowingRed)
+        {
+            spear.GetComponent<FollowingSpear>().SetUpSpear(lifeTime, sprite, PlayerManager.instance.player, speed, isRed);
+            spear.GetComponent<FollowingSpear>().enabled = true;
+        }
+        else if (spearType == SpearType.Regular || spearType == SpearType.RegularRed)
+        {
+            spear.GetComponent<RegularSpear>().SetUpSpear(lifeTime, sprite, PlayerManager.instance.player, launchForce, isRed);
+            spear.GetComponent<RegularSpear>().enabled = true;
+        }
+        else if (spearType == SpearType.RegularLightBlue)
+        {
+            spear.GetComponent<BlueSpear>().SetUpSpear(lifeTime, sprite, PlayerManager.instance.player, launchForce);
+            spear.GetComponent<BlueSpear>().enabled = true;
+        }
+    }
+
+    private IEnumerator CreateWallSpears(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, bool isStraight, float waitTime)
+    {
+        var positions = CalculateWallSpearPositions(spearCount, span, position);
+        var warnings = SpawnSpearWarnings(positions, size);
+        yield return new WaitForSeconds(waitTime);
+
+        for (int i = 0; i < spearCount; i++)
+        {
+            GameObject newSpear = Instantiate(wallSpearPrefab, positions[i] + Vector2.down * 5, Quaternion.identity);
+            newSpear.transform.localScale = size;
+            WallSpearController wallSpearController = newSpear.GetComponent<WallSpearController>();
+            wallSpearController.SetUpWallSpear(spearType, GetSpriteForSpearType(spearType), lifeTime, isStraight, PlayerManager.instance.player);
+            activeWallSpears.Add(wallSpearController);
+            Destroy(warnings[i]);
+        }
+
+        warnings.Clear();
+        if (lifeTime < 100)
+        { 
+            yield return new WaitForSeconds(lifeTime);
+            activeWallSpears.Clear();
+        }
+    }
+
+    private List<Vector2> CalculateWallSpearPositions(int spearCount, float span, Vector2 position)
+    {
+        var positions = new List<Vector2>();
         int halfCount = spearCount / 2;
         bool isOdd = spearCount % 2 != 0;
 
         for (int i = -halfCount; i <= halfCount; i++)
-        {
-            if (i == 0 && !isOdd)
-                continue;
+            if (i != 0 || isOdd) positions.Add(position + new Vector2(i * span, 0));
 
-            Vector2 spearPosition = position + new Vector2(i * span, 0);
-            positions.Add(spearPosition);
-
-            GameObject newWarning = Instantiate(SpearWarningPrefab, spearPosition, Quaternion.identity);
-            warnings.Add(newWarning); 
-
-            Vector3 currentScale = newWarning.transform.localScale;
-            currentScale.x = size.x;
-            newWarning.transform.localScale = currentScale;
-        }
-
-
-        yield return new WaitForSeconds(1);
-
-        for (int i = 0; i < spearCount; i++)
-        {
-            GameObject newSpear = Instantiate(wallSpearPrefab, new Vector2(positions[i].x, positions[i].y - 5), Quaternion.identity);
-            WallSpearController wallSpearController = newSpear.GetComponent<WallSpearController>();
-            wallSpearController.SetUpWallSpear(spearType, lifeTime, isStright, PlayerManager.instance.player);
-            Destroy(warnings[i]); 
-        }
-
-        warnings.Clear();
-
+        return positions;
     }
+
+    private List<GameObject> SpawnSpearWarnings(List<Vector2> positions, Vector2 size)
+    {
+        var warnings = new List<GameObject>();
+        foreach (var pos in positions)
+        {
+            var warning = Instantiate(spearWarningPrefab, pos, Quaternion.identity);
+            warning.transform.localScale = new Vector3(size.x, warning.transform.localScale.y, warning.transform.localScale.z);
+            warnings.Add(warning);
+        }
+        return warnings;
+    }
+
+    private Sprite GetSpriteForSpearType(SpearType spearType) =>
+        spearType switch
+        {
+            SpearType.Regular => blueSpear,
+            SpearType.Following => blueSpear,
+            SpearType.RegularRed => redSpear,
+            SpearType.FollowingRed => redSpear,
+            SpearType.RegularLightBlue => lightBlueSpear,
+            _ => blueSpear,
+        };
 }

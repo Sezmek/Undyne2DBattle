@@ -11,29 +11,12 @@ public class BlueSpear : SpearBase
         lifeTime = _lifeTime;
         launchForce = _launchForce;
     }
-    private void Start()
-    {
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-
-        rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
-        transform.right = rb.velocity.normalized;
-    }
-    private void Update()
-    {
-        if (!Isoff)
-        {
-            lifeTime -= Time.deltaTime;
-            if (lifeTime < 0)
-            {
-                SpearDeahtAnim();
-            }
-        }
-    }
 
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Wall")
+        if (collision.CompareTag("Wall"))
             return;
+
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
@@ -43,14 +26,31 @@ public class BlueSpear : SpearBase
             }
         }
         else
-            Stuck();        
+        {
+            Stuck();
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        {
+            if (collision.CompareTag("Wall"))
+                return;
+
+            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                if (rb.velocity.magnitude > Mathf.Epsilon && !Isoff)
+                {
+                    collision.GetComponent<Player>()?.Damage();
+                }
+            }
+            else
+            {
+                Stuck();
+            }
+        }
     }
 
-    protected override void Stuck()
-    {
-        rb.isKinematic = true;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
     public override void SpearDeahtAnim()
     {
         base.SpearDeahtAnim();

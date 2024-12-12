@@ -12,30 +12,17 @@ public class RegularSpear : SpearBase
         launchForce = _launchForce;
         isRed = _isRed;
     }
-    private void Start()
+    protected override void Start()
     {
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-
-        rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
-        transform.right = rb.velocity.normalized;
+        base.Start();
     }
-    private void Update()
+    protected override void Update()
     {
-        if (!Isoff)
-        {
-            lifeTime -= Time.deltaTime;
-            if (lifeTime < 0)
-            {
-                SpearDeahtAnim();
-            }
-        }
+        base.Update();
     }
     public override void SpearDeahtAnim()
     {
         base.SpearDeahtAnim();
-        if (isRed)
-            anim.Play("RedSpearAnim");
-        else
-            anim.Play("RegularSpearAnim");
+        anim.Play(isRed ? "RedSpearAnim" : "RegularSpearAnim");
     }
 }

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     [Header("Move Info")]
     public float moveSpeed = 12f;
+    public bool canMove = true;
 
     [Header("Dash info")]
     public float dashSpeed;
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
     public PlayerWallSlideState wallSlideState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerSecondAttack SecondAttackState { get; private set; }
+    public PlayerTutorialState TutorialState { get; private set; }
     #endregion
 
     private void Awake()
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSlideState = new PlayerWallSlideState(this, stateMachine, "Slide");
         SecondAttackState = new PlayerSecondAttack(this, stateMachine, "SecondAttack");
+        TutorialState = new PlayerTutorialState(this, stateMachine, "Grabbed");
 
     }
     private void Start()
@@ -85,7 +88,7 @@ public class Player : MonoBehaviour
         if (stateMachine.currentState == wallSlideState)
             return;
         dashCooldownTime -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTime < 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTime < 0 && canMove  )
         {
             dashDir = Input.GetAxisRaw("Horizontal");
             if (dashDir == 0)

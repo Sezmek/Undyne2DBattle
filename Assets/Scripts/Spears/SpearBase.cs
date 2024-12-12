@@ -14,6 +14,7 @@ public class SpearBase : MonoBehaviour
     public bool Isoff;
     public bool isRed;
 
+    protected virtual Sprite CurrentSprite => sr.sprite;
 
     private void Awake()
     {
@@ -25,15 +26,29 @@ public class SpearBase : MonoBehaviour
         player = PlayerManager.instance.player;
     }
 
-
-
-    public virtual void OnTriggerEnter2D(Collider2D collison)
+    protected virtual void Start()
     {
-        if((sr.sprite == SpearManager.instance.lightBlueSpear && !Isoff) || collison.tag == "Wall")
+        InitializeMovement();
+    }
+
+    protected virtual void Update()
+    {
+        if (!Isoff)
+        {
+            lifeTime -= Time.deltaTime;
+            if (lifeTime <= 0)
+                SpearDeahtAnim();
+        }
+    }
+
+    public virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (CurrentSprite == SpearManager.Instance.lightBlueSpear && !Isoff || collision.CompareTag("Wall"))
             return;
-        if (collison.GetComponent<Player>() != null || collison.GetComponentInParent<Player>() != null)
-            collison.GetComponent<Player>().Damage();
-        else if(collison.tag != "Spear")
+
+        if (collision.GetComponent<Player>() != null || collision.GetComponentInParent<Player>() != null)
+            collision.GetComponent<Player>().Damage();
+        else if (!collision.CompareTag("Spear"))
             Stuck();
     }
 
@@ -48,6 +63,13 @@ public class SpearBase : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         Isoff = true;
-        anim.enabled = true;    
+        anim.enabled = true;
+    }
+
+    protected virtual void InitializeMovement()
+    {
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
+        transform.right = rb.velocity.normalized;
     }
 }

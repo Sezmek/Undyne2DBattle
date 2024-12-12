@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class WallSpearController : MonoBehaviour
 {
@@ -10,51 +9,80 @@ public class WallSpearController : MonoBehaviour
     private bool isStraight;
     private Rigidbody2D rb;
     private Player player;
+    private SpriteRenderer sr;
     private Animator anim;
 
-
-    public void SetUpWallSpear(SpearType spearType, float lifeTime,  bool isStraight, Player player)
+    private void Awake()
     {
-        this.player = player;
+        sr = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    public void SetUpWallSpear(SpearType spearType, Sprite sprite, float lifeTime, bool isStraight, Player player)
+    {
         this.spearType = spearType;
         this.lifeTime = lifeTime;
         this.isStraight = isStraight;
+        this.player = player;
 
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        anim.enabled = false;
+        sr.sprite = sprite;
+
+        if (spearType == SpearType.RegularLightBlue)
+        {
+            sr.color = new Color(1, 1, 1, 0.5f); // Set semi-transparent white
+        }
     }
 
-
-    void Start()
+    private void Start()
     {
-        float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
-        if (isStraight && distanceToPlayer <= 10f)
-        {
-            Vector2 direction = (player.transform.position - transform.position).normalized;
-
-            rb.AddForce(direction * 50, ForceMode2D.Impulse);
-            transform.right = rb.velocity.normalized;
-        }
-        else
-        {
-            rb.AddForce(Vector2.up * 50, ForceMode2D.Impulse);
-            transform.right = rb.velocity.normalized;
-        }
+        rb.AddForce(Vector2.up * 50, ForceMode2D.Impulse);
+        transform.right = rb.velocity.normalized;
     }
 
     private void Update()
     {
         lifeTime -= Time.deltaTime;
-        if (lifeTime < 0)
+        if (lifeTime <= 0)
         {
-            anim.Play("RegularSpearAnim");
+            TriggerDestroyAnimation();
         }
-
     }
-    public virtual void OnTriggerEnter2D(Collider2D collison)
+
+    public void TriggerDestroyAnimation()
     {
-        if (collison.GetComponent<Player>() != null || collison.GetComponentInParent<Player>() != null)
-            collison.GetComponent<Player>().Damage();
+        anim.enabled = true;
+        anim.Play(spearType == SpearType.Regular ? "RegularSpearAnim" : "BlueSpearAnim");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (spearType == SpearType.RegularLightBlue)
+        {
+            HandleLightBlueSpearCollision(collision);
+        }
+        else if (collision.GetComponent<Player>() != null || collision.GetComponentInParent<Player>() != null)
+        {
+            collision.GetComponent<Player>()?.Damage();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (spearType == SpearType.RegularLightBlue)
+        {
+            HandleLightBlueSpearCollision(collision);
+        }
+    }
+
+    private void HandleLightBlueSpearCollision(Collider2D collision)
+    {
+        Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+        if (rb != null && rb.velocity.magnitude > Mathf.Epsilon)
+        {
+            collision.GetComponent<Player>()?.Damage();
+        }
     }
 
     public void ZeroVelocity()
