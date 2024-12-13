@@ -56,4 +56,10 @@ public class BlueSpear : SpearBase
         base.SpearDeahtAnim();
         anim.Play("BlueSpearAnim");
     }
+
+    protected override void Stuck()
+    {
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
 }

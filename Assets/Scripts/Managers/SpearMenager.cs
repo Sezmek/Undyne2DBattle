@@ -31,6 +31,7 @@ public class SpearManager : MonoBehaviour
     public Transform[] upperSpawnPositions;
 
     public  List<WallSpearController> activeWallSpears = new List<WallSpearController>();
+    public List<SpearBase> activeSpears = new List<SpearBase>();
 
     private void Awake()
     {
@@ -38,25 +39,29 @@ public class SpearManager : MonoBehaviour
         Instance = this;
     }
 
-    #region Corutine Start methods
+    #region Spear Corutine
 
-    public void StartSpearCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce) =>
-        StartCoroutine(CreateSpears(spawnPositions, spearType, spearCount, spawnFrequency, lifeTime, speed, launchForce));
+    public void StartSpearCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce, Vector2 size = default) =>
+        StartCoroutine(CreateSpears(spawnPositions, spearType, spearCount, spawnFrequency, lifeTime, speed, launchForce, size));
 
-    public void StartWallSpearCoroutine(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, bool isStraight, float waitTime) =>
-        StartCoroutine(CreateWallSpears(spearType, spearCount, lifeTime, size, position, span, isStraight, waitTime));
 
-    private IEnumerator CreateSpears(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce)
+    private IEnumerator CreateSpears(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce, Vector2 size)
     {
         for (int i = 0; i < spearCount; i++)
         {
             Transform spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length)];
             GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+            if (size != default)
+                newSpear.transform.localScale = size;
             SetupSpear(newSpear, spearType, lifeTime, speed, launchForce);
             yield return new WaitForSeconds(spawnFrequency);
         }
+        if (lifeTime < 100)
+        {
+            yield return new WaitForSeconds(lifeTime);
+            activeSpears.Clear();
+        }
     }
-    #endregion
     private void SetupSpear(GameObject spear, SpearType spearType, float lifeTime, float speed, float launchForce)
     {
         Sprite sprite = GetSpriteForSpearType(spearType);
@@ -76,10 +81,16 @@ public class SpearManager : MonoBehaviour
         {
             spear.GetComponent<BlueSpear>().SetUpSpear(lifeTime, sprite, PlayerManager.instance.player, launchForce);
             spear.GetComponent<BlueSpear>().enabled = true;
+            activeSpears.Add(spear.GetComponent<BlueSpear>());
         }
     }
+    #endregion
 
-    private IEnumerator CreateWallSpears(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, bool isStraight, float waitTime)
+    #region Wall Spear Corutine
+    public void StartWallSpearCoroutine(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, float waitTime) =>
+        StartCoroutine(CreateWallSpears(spearType, spearCount, lifeTime, size, position, span, waitTime));
+
+    private IEnumerator CreateWallSpears(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, float waitTime)
     {
         var positions = CalculateWallSpearPositions(spearCount, span, position);
         var warnings = SpawnSpearWarnings(positions, size);
@@ -90,7 +101,7 @@ public class SpearManager : MonoBehaviour
             GameObject newSpear = Instantiate(wallSpearPrefab, positions[i] + Vector2.down * 5, Quaternion.identity);
             newSpear.transform.localScale = size;
             WallSpearController wallSpearController = newSpear.GetComponent<WallSpearController>();
-            wallSpearController.SetUpWallSpear(spearType, GetSpriteForSpearType(spearType), lifeTime, isStraight, PlayerManager.instance.player);
+            wallSpearController.SetUpWallSpear(spearType, GetSpriteForSpearType(spearType), lifeTime, PlayerManager.instance.player);
             activeWallSpears.Add(wallSpearController);
             Destroy(warnings[i]);
         }
@@ -126,6 +137,7 @@ public class SpearManager : MonoBehaviour
         }
         return warnings;
     }
+    #endregion
 
     private Sprite GetSpriteForSpearType(SpearType spearType) =>
         spearType switch

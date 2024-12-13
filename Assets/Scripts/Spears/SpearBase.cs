@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpearBase : MonoBehaviour
 {
     protected float launchForce;
-    protected float lifeTime;
+    public float lifeTime;
     protected Animator anim;
     protected SpriteRenderer sr;
     protected Player player;

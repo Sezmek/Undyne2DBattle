@@ -6,7 +6,6 @@ public class WallSpearController : MonoBehaviour
 {
     private SpearType spearType;
     private float lifeTime;
-    private bool isStraight;
     private Rigidbody2D rb;
     private Player player;
     private SpriteRenderer sr;
@@ -17,11 +16,10 @@ public class WallSpearController : MonoBehaviour
         sr = GetComponentInChildren<SpriteRenderer>();
     }
 
-    public void SetUpWallSpear(SpearType spearType, Sprite sprite, float lifeTime, bool isStraight, Player player)
+    public void SetUpWallSpear(SpearType spearType, Sprite sprite, float lifeTime, Player player)
     {
         this.spearType = spearType;
         this.lifeTime = lifeTime;
-        this.isStraight = isStraight;
         this.player = player;
 
         anim = GetComponentInChildren<Animator>();
