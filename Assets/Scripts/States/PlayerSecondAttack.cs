@@ -11,6 +11,7 @@ public class PlayerSecondAttack : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.secondAnim.Play("SW");
     }
 
     public override void Exit()

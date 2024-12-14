@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 
     #region Components
     public Animator anim {  get; private set; }
+    public Animator secondAnim { get; private set; }
     public ParticleSystem slidePS { get; private set; }
     public Rigidbody2D Rb { get; private set; }
     public PlayerStateMachine stateMachine {  get; private set; }
@@ -72,7 +73,12 @@ public class Player : MonoBehaviour
     private void Start()
     {
         slidePS = GetComponentInChildren<ParticleSystem>();
-        anim = GetComponentInChildren<Animator>();
+        Animator[] animators = GetComponentsInChildren<Animator>();
+        if (animators.Length > 1)
+        {
+            anim = animators[0];
+            secondAnim = animators[1];
+        }
         Rb = GetComponent<Rigidbody2D>();
         stateMachine.Initialize(idleState);
     }
