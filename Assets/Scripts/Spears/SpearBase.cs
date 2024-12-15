@@ -6,6 +6,7 @@ public class SpearBase : MonoBehaviour
 {
     protected float launchForce;
     public float lifeTime;
+    public Sprite TasmaKlejacaMisieKonczy;
     protected Animator anim;
     protected SpriteRenderer sr;
     protected Player player;
@@ -13,6 +14,7 @@ public class SpearBase : MonoBehaviour
     protected BoxCollider2D bd;
     public bool Isoff;
     public bool isRed;
+    public bool walkable;
 
     protected virtual Sprite CurrentSprite => sr.sprite;
 
@@ -37,7 +39,14 @@ public class SpearBase : MonoBehaviour
         {
             lifeTime -= Time.deltaTime;
             if (lifeTime <= 0)
-                SpearDeahtAnim();
+                if (!walkable)
+                    SpearDeahtAnim();
+                else
+                {
+                    lifeTime = 1.5f;
+                    walkable = false;
+                    sr.sprite = TasmaKlejacaMisieKonczy;
+                }
         }
     }
 
@@ -54,9 +63,20 @@ public class SpearBase : MonoBehaviour
 
     protected virtual void Stuck()
     {
-        bd.enabled = false;
-        rb.isKinematic = true;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        if(walkable)
+        {
+            bd.isTrigger = false;
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            bd.enabled = true;
+            gameObject.layer = LayerMask.NameToLayer("Ground");
+        }
+        else
+        {
+            bd.enabled = false;
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
 
     public virtual void SpearDeahtAnim()
@@ -68,8 +88,24 @@ public class SpearBase : MonoBehaviour
 
     protected virtual void InitializeMovement()
     {
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-        rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
-        transform.right = rb.velocity.normalized;
+        if (walkable)
+        {
+            if (player.transform.position.x < transform.position.x)
+            {
+                transform.right = Vector2.left;
+                rb.AddForce(Vector2.left * launchForce, ForceMode2D.Impulse);
+            }
+            else
+            {
+                transform.right = Vector2.right;
+                rb.AddForce(Vector2.right * launchForce, ForceMode2D.Impulse);
+            }
+        }
+        else
+        { 
+            Vector2 direction = (player.transform.position - transform.position).normalized;
+            rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
+            transform.right = rb.velocity.normalized;
+        }
     }
 }

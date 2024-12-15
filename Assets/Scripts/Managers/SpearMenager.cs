@@ -41,19 +41,21 @@ public class SpearManager : MonoBehaviour
 
     #region Spear Corutine
 
-    public void StartSpearCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce, Vector2 size = default) =>
-        StartCoroutine(CreateSpears(spawnPositions, spearType, spearCount, spawnFrequency, lifeTime, speed, launchForce, size));
+    public void StartSpearCoroutine(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce, Vector2 size = default, bool isWalkable = false, Vector2 fixedPosition = default) =>
+        StartCoroutine(CreateSpears(spawnPositions, spearType, spearCount, spawnFrequency, lifeTime, speed, launchForce, size, isWalkable, fixedPosition));
 
 
-    private IEnumerator CreateSpears(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce, Vector2 size)
+    private IEnumerator CreateSpears(Transform[] spawnPositions, SpearType spearType, int spearCount, float spawnFrequency, float lifeTime, float speed, float launchForce, Vector2 size, bool isWakable, Vector2 fixedPosition)
     {
         for (int i = 0; i < spearCount; i++)
         {
-            Transform spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length)];
-            GameObject newSpear = Instantiate(spearPrefab, spawnPoint.position, spawnPoint.rotation);
+            Vector2 spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length)].position;
+            if (fixedPosition != default)
+                spawnPoint = fixedPosition;
+            GameObject newSpear = Instantiate(spearPrefab, spawnPoint, Quaternion.identity);
             if (size != default)
                 newSpear.transform.localScale = size;
-            SetupSpear(newSpear, spearType, lifeTime, speed, launchForce);
+            SetupSpear(newSpear, spearType, lifeTime, speed, launchForce, isWakable);
             yield return new WaitForSeconds(spawnFrequency);
         }
         if (lifeTime < 100)
@@ -62,7 +64,7 @@ public class SpearManager : MonoBehaviour
             activeSpears.Clear();
         }
     }
-    private void SetupSpear(GameObject spear, SpearType spearType, float lifeTime, float speed, float launchForce)
+    private void SetupSpear(GameObject spear, SpearType spearType, float lifeTime, float speed, float launchForce, bool isWalkable)
     {
         Sprite sprite = GetSpriteForSpearType(spearType);
         bool isRed = spearType.ToString().Contains("Red");
@@ -74,7 +76,7 @@ public class SpearManager : MonoBehaviour
         }
         else if (spearType == SpearType.Regular || spearType == SpearType.RegularRed)
         {
-            spear.GetComponent<RegularSpear>().SetUpSpear(lifeTime, sprite, PlayerManager.instance.player, launchForce, isRed);
+            spear.GetComponent<RegularSpear>().SetUpSpear(lifeTime, sprite, PlayerManager.instance.player, launchForce, isRed, isWalkable);
             spear.GetComponent<RegularSpear>().enabled = true;
         }
         else if (spearType == SpearType.RegularLightBlue)

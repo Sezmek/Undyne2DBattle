@@ -50,27 +50,26 @@ public class WallSpearController : MonoBehaviour
 
     public void TriggerDestroyAnimation()
     {
-        anim.enabled = true;
-        anim.Play(spearType == SpearType.Regular ? "RegularSpearAnim" : "BlueSpearAnim");
+        if (anim != null)
+        {
+            anim.enabled = true;
+            anim.Play(spearType == SpearType.Regular ? "RegularSpearAnim" : "BlueSpearAnim");
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (spearType == SpearType.RegularLightBlue)
         {
             HandleLightBlueSpearCollision(collision);
         }
-        else if (collision.GetComponent<Player>() != null || collision.GetComponentInParent<Player>() != null)
+        else
         {
-            collision.GetComponent<Player>()?.Damage();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (spearType == SpearType.RegularLightBlue)
-        {
-            HandleLightBlueSpearCollision(collision);
+            Player player = collision.GetComponent<Player>() ?? collision.GetComponentInParent<Player>();
+            if (player != null)
+            {
+                player.Damage();
+            }
         }
     }
 

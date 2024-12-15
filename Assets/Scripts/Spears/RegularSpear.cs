@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class RegularSpear : SpearBase
 {
-    public void SetUpSpear(float _lifeTime, Sprite _sprite, Player _player, float _launchForce, bool _isRed)
+
+    public void SetUpSpear(float _lifeTime, Sprite _sprite, Player _player, float _launchForce, bool _isRed, bool _isWalkable)
     {
         player = _player;
         sr.sprite = _sprite;
         lifeTime = _lifeTime;
         launchForce = _launchForce;
         isRed = _isRed;
+        walkable = _isWalkable;
     }
     protected override void Start()
     {

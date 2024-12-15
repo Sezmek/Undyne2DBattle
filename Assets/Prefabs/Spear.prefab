@@ -121,8 +121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3facec55ef09044b4a75de2e751f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTime: 0
+  TasmaKlejacaMisieKonczy: {fileID: 0}
   Isoff: 0
   isRed: 0
+  walkable: 0
 --- !u!114 &3846576367666654795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,8 +138,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9430cca4daf3e574d9bce1436a0628a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTime: 0
+  TasmaKlejacaMisieKonczy: {fileID: -1252558741, guid: 112df8ec5e7b2a7418666bd584ce39c0, type: 3}
   Isoff: 0
   isRed: 0
+  walkable: 0
 --- !u!114 &6578535778360027357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +155,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb8873a3c8d2ae40b9456b823cf6c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeTime: 0
+  TasmaKlejacaMisieKonczy: {fileID: 0}
   Isoff: 0
   isRed: 0
+  walkable: 0
 --- !u!1 &7131933106737773057
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +233,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -937169255
-  m_SortingLayer: 1
+  m_SortingLayer: -3
   m_SortingOrder: 1
   m_Sprite: {fileID: -1194579740, guid: 73398092668b95a4d9b6fefa6358967c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
