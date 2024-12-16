@@ -49,6 +49,11 @@ public class SpearManager : MonoBehaviour
     {
         for (int i = 0; i < spearCount; i++)
         {
+            while (PauseMenu.gameIsPaused)
+            {
+                yield return null; // Pauses the coroutine until the next frame
+            }
+
             Vector2 spawnPoint = spawnPositions[Random.Range(0, spawnPositions.Length)].position;
             if (fixedPosition != default)
                 spawnPoint = fixedPosition;
@@ -94,6 +99,11 @@ public class SpearManager : MonoBehaviour
 
     private IEnumerator CreateWallSpears(SpearType spearType, int spearCount, float lifeTime, Vector2 size, Vector2 position, float span, float waitTime)
     {
+        while (PauseMenu.gameIsPaused)
+        {
+            yield return null; 
+        }
+
         var positions = CalculateWallSpearPositions(spearCount, span, position);
         var warnings = SpawnSpearWarnings(positions, size);
         yield return new WaitForSeconds(waitTime);
