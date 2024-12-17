@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -32,8 +33,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask WhatIsGround;
 
+    [SerializeField] private int hp = 5;
+    [SerializeField] List<GameObject> hpHearts;
+
     public int facingDir { get; private set; } = 1;
     private bool facingRight = true;
+    private bool isBusy;
 
     #region Components
     public Animator anim {  get; private set; }
@@ -41,6 +46,7 @@ public class Player : MonoBehaviour
     public ParticleSystem slidePS { get; private set; }
     public Rigidbody2D Rb { get; private set; }
     public PlayerStateMachine stateMachine {  get; private set; }
+    public SpriteRenderer spriteRenderer { get; private set; }
     #endregion
 
     #region States
@@ -73,6 +79,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         slidePS = GetComponentInChildren<ParticleSystem>();
+        spriteRenderer = GetComponentsInChildren<SpriteRenderer>()[0];
         Animator[] animators = GetComponentsInChildren<Animator>();
         if (animators.Length > 1)
         {
@@ -119,6 +126,15 @@ public class Player : MonoBehaviour
 
     }
 
+    private IEnumerator Busy(float _seconds)
+    {
+        isBusy = true;
+        spriteRenderer.color = new Color(1, 1, 1, 0.3f);
+        yield return new WaitForSeconds(_seconds);
+        spriteRenderer.color = Color.white;
+        isBusy = false;
+    }
+
     public void Flip()
     {
         facingDir = facingDir * -1;
@@ -134,9 +150,13 @@ public class Player : MonoBehaviour
     }
     public void Damage()
     {
-        if (stateMachine.currentState == dashState)
+        if (stateMachine.currentState == dashState || isBusy == true)
             return;
-        Debug.Log("damaged");
+        StartCoroutine(Busy(1));
+        hpHearts[hp-1].GetComponent<HpHeart>().DestroyAnimTrigger();
+        hp -= 1;
+        if (hp == 0)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     public void Trigger() => stateMachine.currentState.Trigger();

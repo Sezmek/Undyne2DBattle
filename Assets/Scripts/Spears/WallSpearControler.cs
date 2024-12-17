@@ -29,7 +29,7 @@ public class WallSpearController : MonoBehaviour
 
         if (spearType == SpearType.RegularLightBlue)
         {
-            sr.color = new Color(1, 1, 1, 0.5f); // Set semi-transparent white
+            sr.color = new Color(1, 1, 1, 0.5f); 
         }
     }
 

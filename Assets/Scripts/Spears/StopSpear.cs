@@ -9,8 +9,4 @@ public class StopSpear : MonoBehaviour
         if (collision.tag == "Ground")
         GetComponentInParent<WallSpearController>().ZeroVelocity();
     }
-    public void DestroySpear()
-    {
-        Destroy(transform.parent.gameObject);
-    }
 }

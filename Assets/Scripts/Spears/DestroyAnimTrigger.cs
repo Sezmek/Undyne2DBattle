@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpearDestruction : MonoBehaviour
+public class DestroyAnimTrigger : MonoBehaviour
 {
-    public void DestroySpear()
+    public void DestroyObject()
     {
         Destroy(transform.parent.gameObject);
     }

@@ -5,8 +5,8 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    [SerializeField] private float volume = 1.0f;
-    [SerializeField] private bool tutorial = true;
+    private float volume;
+    private bool tutorial;
 
     [Header("UI References")]
     public TMPro.TMP_Dropdown resolutionDropdown;
@@ -15,14 +15,6 @@ public class SettingsManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
         LoadSettings();
     }
 
