@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -10,17 +11,28 @@ public class SettingsManager : MonoBehaviour
 
     [Header("UI References")]
     public TMPro.TMP_Dropdown resolutionDropdown;
+    public TMPro.TMP_Dropdown qualityDropdown;
+    public Toggle tutorialToggle;
+    public Toggle fullscreenToggle;
+    public Slider volumeSlider;
     private Resolution[] resolutions;
     private int currentResolutionIndex = 0;
 
     private void Awake()
     {
         LoadSettings();
+        tutorialToggle.isOn = PlayerPrefs.GetInt("Tutorial") == 1;
+        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen") == 1;
+        volumeSlider.value = PlayerPrefs.GetFloat("Volume");
+        int savedQualityIndex = PlayerPrefs.HasKey("Quality") ? PlayerPrefs.GetInt("Quality") : QualitySettings.GetQualityLevel();
+        qualityDropdown.value = savedQualityIndex;
+        qualityDropdown.RefreshShownValue();
     }
 
     private void Start()
     {
         InitializeResolutions();
+
     }
 
     private void InitializeResolutions()
@@ -46,7 +58,6 @@ public class SettingsManager : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
-
         SetResolution(resolutionDropdown.value);
     }
     public void SetResolution(int resolutionIndex)

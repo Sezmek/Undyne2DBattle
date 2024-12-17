@@ -27,6 +27,8 @@ public class BattleManager : MonoBehaviour
     {
         spearManager = SpearManager.Instance;
         player = PlayerManager.instance.player;
+        if (PlayerPrefs.GetInt("Tutorial") == 1)
+                player.canMove = false;
         audioSource = GetComponent<AudioSource>();
         volume = PlayerPrefs.GetFloat("Volume");
         tutorial = PlayerPrefs.GetInt("Tutorial") == 1;
@@ -74,7 +76,7 @@ public class BattleManager : MonoBehaviour
         StartWallSpears(SpearType.Regular, 7, 2, new Vector2(2, 1), new Vector2(-17, -10), 2, 1.5f);
         yield return WaitForAudioTime(50);
         spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularLightBlue, 6, 2, 10000, 0, 30, new Vector2(3, 1.5f));
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 40, 0.5f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 35, 0.7f, 4, 15, 15);
         yield return WaitForAudioTime(70.6f);
         DestroyCurrentSpears();
 
@@ -82,10 +84,10 @@ public class BattleManager : MonoBehaviour
         yield return WaitForAudioTime(71);
         spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularLightBlue, 20, 2, 10, 0, 10);
         yield return WaitForAudioTime(72);
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 15, 1, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 15, 1.2f, 4, 15, 15);
         yield return WaitForAudioTime(73);
-        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Regular, 20, 1, 4, 15, 15);
-        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Regular, 20, 1, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Regular, 20, 1.2f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Regular, 20, 1.2f, 4, 15, 15);
         yield return WaitForAudioTime(94);
 
 
@@ -148,7 +150,6 @@ public class BattleManager : MonoBehaviour
     #region Tutorial
     private IEnumerator ShowAttackTutorial()
     {
-        player.canMove = false;
         StartWallSpears(SpearType.RegularLightBlue, 3, 10000, new Vector2(2, 1), new Vector2(player.transform.position.x, -10), 1, 1);
         yield return new WaitForSeconds(1f);
         player.stateMachine.ChangeState(player.TutorialState);

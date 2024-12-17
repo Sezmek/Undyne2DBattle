@@ -819,6 +819,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 2134091393}
+  qualityDropdown: {fileID: 859164801}
+  tutorialToggle: {fileID: 1500129141}
+  fullscreenToggle: {fileID: 1275063400}
+  volumeSlider: {fileID: 439320375}
 --- !u!4 &261400921
 Transform:
   m_ObjectHideFlags: 0
@@ -2108,7 +2112,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &727937183
 MonoBehaviour:
@@ -5702,7 +5706,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -158, y: -75}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2134091393
 MonoBehaviour:
