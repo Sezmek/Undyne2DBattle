@@ -8,6 +8,7 @@ public class BlueSpear : SpearBase
     {
         player = _player;
         sr.sprite = _sprite;
+        anim.Play("defaultBlueLight");
         lifeTime = _lifeTime;
         launchForce = _launchForce;
     }
@@ -20,7 +21,7 @@ public class BlueSpear : SpearBase
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            if (rb.velocity.magnitude > Mathf.Epsilon && !Isoff)
+            if (rb.linearVelocity.magnitude > Mathf.Epsilon && !Isoff)
             {
                 collision.GetComponent<Player>()?.Damage();
             }
@@ -39,7 +40,7 @@ public class BlueSpear : SpearBase
             Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                if (rb.velocity.magnitude > Mathf.Epsilon && !Isoff)
+                if (rb.linearVelocity.magnitude > Mathf.Epsilon && !Isoff)
                 {
                     collision.GetComponent<Player>()?.Damage();
                 }
@@ -59,7 +60,7 @@ public class BlueSpear : SpearBase
 
     protected override void Stuck()
     {
-        rb.isKinematic = true;
+        rb.bodyType = RigidbodyType2D.Kinematic;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 }

@@ -22,7 +22,6 @@ public class SpearBase : MonoBehaviour
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         anim = GetComponentInChildren<Animator>();
-        anim.enabled = false;
         rb = GetComponent<Rigidbody2D>();
         bd = GetComponent<BoxCollider2D>();
         player = PlayerManager.instance.player;
@@ -66,7 +65,7 @@ public class SpearBase : MonoBehaviour
         if(walkable)
         {
             bd.isTrigger = false;
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             bd.enabled = true;
             gameObject.layer = LayerMask.NameToLayer("Ground");
@@ -74,14 +73,14 @@ public class SpearBase : MonoBehaviour
         else
         {
             bd.enabled = false;
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
 
     public virtual void SpearDeahtAnim()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         Isoff = true;
         anim.enabled = true;
     }
@@ -105,7 +104,7 @@ public class SpearBase : MonoBehaviour
         { 
             Vector2 direction = (player.transform.position - transform.position).normalized;
             rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
-            transform.right = rb.velocity.normalized;
+            transform.right = rb.linearVelocity.normalized;
         }
     }
 }

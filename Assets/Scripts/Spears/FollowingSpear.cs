@@ -14,6 +14,8 @@ public class FollowingSpear : SpearBase
         lifeTime = _lifeTime;
         followingSpeed = _followingSpeed;
         isRed = _isRed;
+        if (isRed)
+            anim.Play("defaultRed");
     }
 
     protected override void Update()
@@ -22,8 +24,8 @@ public class FollowingSpear : SpearBase
         if (!Isoff)
         {
             Vector2 direction = (player.transform.position - transform.position).normalized;
-            rb.velocity = following ? direction * followingSpeed : transform.right * followingSpeed * 1.5f;
-            transform.right = rb.velocity.normalized;
+            rb.linearVelocity = following ? direction * followingSpeed : transform.right * followingSpeed * 1.5f;
+            transform.right = rb.linearVelocity.normalized;
         }
 
         if (following && Vector2.Distance(transform.position, player.transform.position) < 13)

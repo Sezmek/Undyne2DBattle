@@ -33,8 +33,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask WhatIsGround;
 
-    [SerializeField] private int hp = 5;
-    [SerializeField] List<GameObject> hpHearts;
+    [SerializeField] private List<GameObject> hpHearts;
+    [SerializeField] private GameObject heartPrefab;
+    private int hp;
 
     public int facingDir { get; private set; } = 1;
     private bool facingRight = true;
@@ -78,6 +79,7 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
+        hp = hpHearts.Count;
         slidePS = GetComponentInChildren<ParticleSystem>();
         spriteRenderer = GetComponentsInChildren<SpriteRenderer>()[0];
         Animator[] animators = GetComponentsInChildren<Animator>();
@@ -113,7 +115,7 @@ public class Player : MonoBehaviour
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         FlipController(_xVelocity);
-        Rb.velocity = new Vector2(_xVelocity, _yVelocity);
+        Rb.linearVelocity = new Vector2(_xVelocity, _yVelocity);
     }
     public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.down, wallCheckDistance, WhatIsGround);
 
@@ -152,11 +154,21 @@ public class Player : MonoBehaviour
     {
         if (stateMachine.currentState == dashState || isBusy == true)
             return;
-        StartCoroutine(Busy(1));
+        StartCoroutine(Busy(1.5f));
         hpHearts[hp-1].GetComponent<HpHeart>().DestroyAnimTrigger();
         hp -= 1;
         if (hp == 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        {
+            PauseMenu.gameIsPaused = true;
+            Time.timeScale = 0.4f;
+            AudioSource backgroundMusic = BattleManager.instance.audioSource;
+            if (backgroundMusic != null && backgroundMusic.isPlaying)
+            {
+                backgroundMusic.Pause();
+            }
+            GameObject heart = Instantiate(heartPrefab, transform.position, Quaternion.identity);
+            heart.GetComponent<HpHeart>().PlayerDeaht();
+        }
     }
     public void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     public void Trigger() => stateMachine.currentState.Trigger();

@@ -13,6 +13,8 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
         player.secondAnim.Play("SW");
+        stateTimer = 0.085f;
+
     }
 
     public override void Exit()
@@ -26,6 +28,13 @@ public class PlayerPrimaryAttackState : PlayerState
 
         player.SetVelocity(0, 0);
 
+        if (stateTimer < 0 && Input.GetKeyDown(KeyCode.Space))
+        {
+            comboWindow = false;
+            stateMachine.ChangeState(player.jumpState);
+            player.secondAnim.Play("default");
+            return;
+        }
         if (comboWindow && Input.GetKey(KeyCode.Mouse0))
         {
             comboWindow = false;

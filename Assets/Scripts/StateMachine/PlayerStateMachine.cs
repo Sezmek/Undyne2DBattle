@@ -13,6 +13,8 @@ public class PlayerStateMachine
     }
     public void ChangeState(PlayerState _newState)
     {
+        if (PauseMenu.gameIsPaused)
+            return;
         currentState.Exit();
         currentState = _newState;
         currentState.Enter();

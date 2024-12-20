@@ -36,7 +36,7 @@ public class WallSpearController : MonoBehaviour
     private void Start()
     {
         rb.AddForce(Vector2.up * 50, ForceMode2D.Impulse);
-        transform.right = rb.velocity.normalized;
+        transform.right = rb.linearVelocity.normalized;
     }
 
     private void Update()
@@ -76,7 +76,7 @@ public class WallSpearController : MonoBehaviour
     private void HandleLightBlueSpearCollision(Collider2D collision)
     {
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-        if (rb != null && rb.velocity.magnitude > Mathf.Epsilon)
+        if (rb != null && rb.linearVelocity.magnitude > Mathf.Epsilon)
         {
             collision.GetComponent<Player>()?.Damage();
         }
@@ -84,7 +84,7 @@ public class WallSpearController : MonoBehaviour
 
     public void ZeroVelocity()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
     }
 }
 

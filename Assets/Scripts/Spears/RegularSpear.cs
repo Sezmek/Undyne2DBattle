@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RegularSpear : SpearBase
 {
-
     public void SetUpSpear(float _lifeTime, Sprite _sprite, Player _player, float _launchForce, bool _isRed, bool _isWalkable)
     {
         player = _player;
@@ -12,6 +11,8 @@ public class RegularSpear : SpearBase
         lifeTime = _lifeTime;
         launchForce = _launchForce;
         isRed = _isRed;
+        if(isRed)
+            anim.Play("defaultRed");
         walkable = _isWalkable;
     }
     protected override void Start()

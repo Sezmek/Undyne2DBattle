@@ -9,7 +9,8 @@ public class BattleManager : MonoBehaviour
     private SpearManager spearManager;
     private Coroutine attackRoutine;
     public float volume;
-    public bool tutorial;   
+    public bool tutorial;
+    public bool hasStartedMusic = false;
 
     [SerializeField] private GameObject attackTutorial;
     [SerializeField] private GameObject dashTutorial;
@@ -17,6 +18,8 @@ public class BattleManager : MonoBehaviour
     public AudioSource audioSource;
     private void Awake()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         if (instance != null)
             Destroy(instance.gameObject);
         else
@@ -28,7 +31,7 @@ public class BattleManager : MonoBehaviour
         spearManager = SpearManager.Instance;
         player = PlayerManager.instance.player;
         if (PlayerPrefs.GetInt("Tutorial") == 1)
-                player.canMove = false;
+            player.canMove = false;
         audioSource = GetComponent<AudioSource>();
         volume = PlayerPrefs.GetFloat("Volume");
         tutorial = PlayerPrefs.GetInt("Tutorial") == 1;
@@ -39,7 +42,7 @@ public class BattleManager : MonoBehaviour
     {
         audioSource.volume = volume;
         if (tutorial)
-        { 
+        {
             yield return StartCoroutine(ShowAttackTutorial());
             yield return StartCoroutine(ShowDashTutorial());
             yield return StartCoroutine(ShowWallSlideTutorial());
@@ -47,6 +50,7 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         audioSource.Play();
+        hasStartedMusic = true;
         spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 20, 0.3f, 4, 20, 20);
         yield return WaitForAudioTime(6.5f);
         spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Regular, 19, 0.6f, 4, 0, 22);
@@ -75,7 +79,7 @@ public class BattleManager : MonoBehaviour
         StartWallSpears(SpearType.Regular, 7, 2, new Vector2(2, 1), new Vector2(17, -10), 2, 1.5f);
         StartWallSpears(SpearType.Regular, 7, 2, new Vector2(2, 1), new Vector2(-17, -10), 2, 1.5f);
         yield return WaitForAudioTime(50);
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularLightBlue, 6, 2, 10000, 0, 30, new Vector2(3, 1.5f));
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularLightBlue, 5, 2, 10000, 0, 30, new Vector2(3, 1.5f));
         spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 35, 0.7f, 4, 15, 15);
         yield return WaitForAudioTime(70.6f);
         DestroyCurrentSpears();
@@ -84,10 +88,10 @@ public class BattleManager : MonoBehaviour
         yield return WaitForAudioTime(71);
         spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularLightBlue, 20, 2, 10, 0, 10);
         yield return WaitForAudioTime(72);
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 15, 1.2f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 14, 1.2f, 4, 15, 15);
         yield return WaitForAudioTime(73);
-        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Regular, 20, 1.2f, 4, 15, 15);
-        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Regular, 20, 1.2f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Regular, 14, 1.5f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Regular, 14, 1.7f, 4, 15, 15);
         yield return WaitForAudioTime(94);
 
 
@@ -154,9 +158,8 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         player.stateMachine.ChangeState(player.TutorialState);
         SetTutorialState(attackTutorial, true);
-        InvokeRepeating(nameof(TutorialSpear), 0, 5);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Mouse0));
-        CancelInvoke(nameof(TutorialSpear));
+        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions,SpearType.RegularRed,1,1,10,0,7);
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Mouse0) && !PauseMenu.gameIsPaused);
         DestroyCurrentWallSpears();
         SetTutorialState(attackTutorial, false);
         player.stateMachine.ChangeState(player.FirstAttackState);
@@ -166,8 +169,8 @@ public class BattleManager : MonoBehaviour
     private IEnumerator ShowDashTutorial()
     {
         SetTutorialState(dashTutorial, true);
-        StartWallSpears(SpearType.Regular, 13, 1, new Vector2(3, 1), new Vector2(-12, -10), 2, 1.5f);
-        yield return new WaitForSeconds(1.5f);
+        StartWallSpears(SpearType.Regular, 13, 1, new Vector2(3, 1), new Vector2(-12, -10), 2, 2f);
+        yield return new WaitForSeconds(2.5f);
         SetTutorialState(dashTutorial, false);
     }
 
@@ -184,18 +187,6 @@ public class BattleManager : MonoBehaviour
     private void SetTutorialState(GameObject tutorialObject, bool state)
     {
         tutorialObject.SetActive(state);
-    }
-    private void TutorialSpear()
-    {
-        spearManager.StartSpearCoroutine(
-            spearManager.upperSpawnPositions,
-            SpearType.RegularRed,
-            1,
-            1,
-            7,
-            0,
-            10
-        );
     }
     #endregion
 

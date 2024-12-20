@@ -12,28 +12,28 @@ public class PlayerJumpState : PlayerState
     {
         base.Enter();
         stateTimer = player.maxJumpTime;
-        player.SetVelocity(rb.velocity.x * 0.5f, player.jumpForce);
+        player.SetVelocity(rb.linearVelocity.x * 0.5f, player.jumpForce);
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.SetVelocity(rb.velocity.x, rb.velocity.y * 0.6f);
+        player.SetVelocity(rb.linearVelocity.x, rb.linearVelocity.y * 0.6f);
     }
 
     public override void Update()
     {
         base.Update();
-        if (stateTimer > 0 && Input.GetKey(KeyCode.Space) && rb.velocity.y > 0)
+        if (stateTimer > 0 && Input.GetKey(KeyCode.Space) && rb.linearVelocity.y > 0)
         {
-            player.SetVelocity(rb.velocity.x, rb.velocity.y + (player.jumpForceMultiplier * Time.deltaTime));
+            player.SetVelocity(rb.linearVelocity.x, rb.linearVelocity.y + (player.jumpForceMultiplier * Time.deltaTime));
         }
         else
         {
             stateMachine.ChangeState(player.airState);
         }
         if (xInput != 0)
-            player.SetVelocity(xInput * player.moveSpeed * .8f, player.Rb.velocity.y);
+            player.SetVelocity(xInput * player.moveSpeed * .8f, player.Rb.linearVelocity.y);
 
     }
 }
