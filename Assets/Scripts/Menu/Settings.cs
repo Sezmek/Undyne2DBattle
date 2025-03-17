@@ -6,12 +6,14 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    private float volume;
-    private bool tutorial;
+    private float volume = 0.5f;
+    private bool tutorial = true;
+    private int difficulty = 2;
 
     [Header("UI References")]
     public TMPro.TMP_Dropdown resolutionDropdown;
     public TMPro.TMP_Dropdown qualityDropdown;
+    public TMPro.TMP_Dropdown DifficultyDropdown;
     public Toggle tutorialToggle;
     public Toggle fullscreenToggle;
     public Slider volumeSlider;
@@ -21,18 +23,13 @@ public class SettingsManager : MonoBehaviour
     private void Awake()
     {
         LoadSettings();
-        tutorialToggle.isOn = PlayerPrefs.GetInt("Tutorial") == 1;
-        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen") == 1;
-        volumeSlider.value = PlayerPrefs.GetFloat("Volume");
-        int savedQualityIndex = PlayerPrefs.HasKey("Quality") ? PlayerPrefs.GetInt("Quality") : QualitySettings.GetQualityLevel();
-        qualityDropdown.value = savedQualityIndex;
-        qualityDropdown.RefreshShownValue();
+        SetSettings();
     }
+
 
     private void Start()
     {
         InitializeResolutions();
-
     }
 
     private void InitializeResolutions()
@@ -72,6 +69,11 @@ public class SettingsManager : MonoBehaviour
         Screen.fullScreen = isFullscreen;
         SaveSettings();
     }
+    public void SetDifficulty(int difficultyIndex)
+    {
+        difficulty = difficultyIndex;
+        SaveSettings();
+    }
 
     public void SetVolume(float newVolume)
     {
@@ -104,6 +106,7 @@ public class SettingsManager : MonoBehaviour
     private void SaveSettings()
     {
         PlayerPrefs.SetFloat("Volume", volume);
+        PlayerPrefs.SetInt("Difficulty", difficulty);
         PlayerPrefs.SetInt("Quality", QualitySettings.GetQualityLevel());
         PlayerPrefs.SetInt("Tutorial", tutorial ? 1 : 0);
         PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
@@ -113,6 +116,8 @@ public class SettingsManager : MonoBehaviour
 
     private void LoadSettings()
     {
+        if (PlayerPrefs.HasKey("Difficulty"))
+            difficulty = PlayerPrefs.GetInt("Difficulty");
         if (PlayerPrefs.HasKey("Quality"))
             QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("Quality"));
         if (PlayerPrefs.HasKey("Volume"))
@@ -123,5 +128,15 @@ public class SettingsManager : MonoBehaviour
             Screen.fullScreen = PlayerPrefs.GetInt("Fullscreen") == 1;
         if (PlayerPrefs.HasKey("ResolutionIndex"))
             currentResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex");
+    }
+    private void SetSettings()
+    {
+        DifficultyDropdown.value = difficulty;
+        tutorialToggle.isOn = tutorial;
+        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen") == 1;
+        volumeSlider.value = volume;
+        int savedQualityIndex = PlayerPrefs.HasKey("Quality") ? PlayerPrefs.GetInt("Quality") : QualitySettings.GetQualityLevel();
+        qualityDropdown.value = savedQualityIndex;
+        qualityDropdown.RefreshShownValue();
     }
 }

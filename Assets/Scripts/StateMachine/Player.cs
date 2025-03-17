@@ -33,8 +33,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float wallCheckDistance;
     [SerializeField] private LayerMask WhatIsGround;
 
-    [SerializeField] private List<GameObject> hpHearts;
     [SerializeField] private GameObject heartPrefab;
+    private List<GameObject> hpHearts;
     private int hp;
 
     public int facingDir { get; private set; } = 1;
@@ -79,6 +79,8 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
+        hpHearts = new List<GameObject>();
+        RespawnHearts();
         hp = hpHearts.Count;
         slidePS = GetComponentInChildren<ParticleSystem>();
         spriteRenderer = GetComponentsInChildren<SpriteRenderer>()[0];
@@ -90,6 +92,22 @@ public class Player : MonoBehaviour
         }
         Rb = GetComponent<Rigidbody2D>();
         stateMachine.Initialize(idleState);
+    }
+
+    private void RespawnHearts()
+    {
+        int hearts = 3 * (PlayerPrefs.GetInt("Difficulty") + 1);
+        int x = 0;
+        for (int i = 0; i < hearts; i++)
+        {
+            x = -x;
+            GameObject heart = Instantiate(heartPrefab, new Vector2(x, 20), Quaternion.identity);
+            hpHearts.Add(heart);
+            if (i % 2 == 0 && i != 0)
+                x += 2;
+            if (i == 0)
+                x = 2;
+        }
     }
 
     private void Update()
@@ -159,6 +177,7 @@ public class Player : MonoBehaviour
         hp -= 1;
         if (hp == 0)
         {
+            Rb.bodyType = RigidbodyType2D.Static;
             PauseMenu.gameIsPaused = true;
             Time.timeScale = 0.4f;
             AudioSource backgroundMusic = BattleManager.instance.audioSource;

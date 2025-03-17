@@ -42,7 +42,7 @@ public class SpearBase : MonoBehaviour
                     SpearDeahtAnim();
                 else
                 {
-                    lifeTime = 1.5f;
+                    lifeTime = 2f;
                     walkable = false;
                     sr.sprite = TasmaKlejacaMisieKonczy;
                 }
