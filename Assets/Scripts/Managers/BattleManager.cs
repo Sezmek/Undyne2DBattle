@@ -114,41 +114,44 @@ public class BattleManager : MonoBehaviour
         yield return WaitForAudioTime(126);
         spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Regular, 8, 0.9f, 4, 15, 15);
         spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Regular, 8, 0.9f, 4, 15, 15);
+        yield return WaitForAudioTime(134.5f);
+        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.RegularRed, 7, 0.3f, 4, 15, 15);
         yield return WaitForAudioTime(136);
-        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.RegularRed, 10, 0.1f, 4, 15, 15);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 0.7f);
         yield return WaitForAudioTime(137);
-        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.RegularRed, 10, 0.1f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.RegularRed, 7, 0.3f, 4, 15, 15);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 0.7f);
         yield return WaitForAudioTime(138);
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularRed, 10, 0.1f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularRed, 7, 0.3f, 4, 15, 15);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 0.5f);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 1f);
         yield return WaitForAudioTime(140);
-        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.RegularRed, 10, 0.1f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.RegularRed, 7, 0.3f, 4, 15, 15);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 1.7f);
         yield return WaitForAudioTime(141);
-        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.RegularRed, 10, 0.1f, 4, 15, 15);
+        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.RegularRed, 7, 0.3f, 4, 15, 15);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 1);
         yield return WaitForAudioTime(142);
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularRed, 10, 0.1f, 4, 15, 16);
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.RegularRed, 10, 0.3f, 4, 15, 16);
         StartWallSpears(SpearType.Regular, 1, 1, new Vector2(3, 1), new Vector2(player.transform.position.x, -10), 1, 1f);
         yield return WaitForAudioTime(145);
-        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 20, 0.4f, 1000, 2.5f, 2.5f);
-        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Following, 20, 0.4f, 1000, 2.5f, 2.5f);
-        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Following, 20, 0.4f, 1000, 2.5f, 2.5f);
         StartWallSpears(SpearType.Regular, 3, 1000, new Vector2(10, 1), new Vector2(-23, -10), 2, 1.5f);
         StartWallSpears(SpearType.Regular, 3, 1000, new Vector2(10, 1), new Vector2(23, -10), 2, 1.5f);
         StartWallSpears(SpearType.Regular, 3, 1000, new Vector2(10, 1), new Vector2(-19, -10), 2, 2f);
         StartWallSpears(SpearType.Regular, 3, 1000, new Vector2(10, 1), new Vector2(19, -10), 2, 2f);
         StartWallSpears(SpearType.Regular, 3, 1000, new Vector2(10, 1), new Vector2(-15, -10), 2, 3f);
         StartWallSpears(SpearType.Regular, 3, 1000, new Vector2(10, 1), new Vector2(15, -10), 2, 3f);
-        StartWallSpears(SpearType.Regular, 5, 1000, new Vector2(10, 1), new Vector2(-9, -10), 2, 3.5f);
-        StartWallSpears(SpearType.Regular, 5, 1000, new Vector2(10, 1), new Vector2(9, -10), 2.5f, 3.5f);
+        StartWallSpears(SpearType.Regular, 5, 1000, new Vector2(10, 1), new Vector2(-7, -10), 2, 3.5f);
+        StartWallSpears(SpearType.Regular, 5, 1000, new Vector2(10, 1), new Vector2(7, -10), 2, 3.5f);
+        yield return WaitForAudioTime(146);
+        spearManager.StartSpearCoroutine(spearManager.upperSpawnPositions, SpearType.Following, 20, 0.4f, 1000, 2.6f, 3f);
+        spearManager.StartSpearCoroutine(spearManager.leftSpawnPositions, SpearType.Following, 20, 0.4f, 1000, 2.6f, 3f);
+        spearManager.StartSpearCoroutine(spearManager.rightSpawnPositions, SpearType.Following, 20, 0.4f, 1000, 2.6f, 3f);
         yield return WaitForAudioTime(154);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+
     }
 
     #region Tutorial

@@ -105,7 +105,7 @@ public class SpearManager : MonoBehaviour
         }
 
         var positions = CalculateWallSpearPositions(spearCount, span, position);
-        var warnings = SpawnSpearWarnings(positions, size);
+        var warnings = SpawnSpearWarnings(positions);
         yield return new WaitForSeconds(waitTime);
 
         for (int i = 0; i < spearCount; i++)
@@ -138,13 +138,13 @@ public class SpearManager : MonoBehaviour
         return positions;
     }
 
-    private List<GameObject> SpawnSpearWarnings(List<Vector2> positions, Vector2 size)
+    private List<GameObject> SpawnSpearWarnings(List<Vector2> positions)
     {
         var warnings = new List<GameObject>();
         foreach (var pos in positions)
         {
             var warning = Instantiate(spearWarningPrefab, pos, Quaternion.identity);
-            warning.transform.localScale = new Vector3(size.x, warning.transform.localScale.y, warning.transform.localScale.z);
+            warning.transform.localScale = new Vector3(2, warning.transform.localScale.y, warning.transform.localScale.z);
             warnings.Add(warning);
         }
         return warnings;
